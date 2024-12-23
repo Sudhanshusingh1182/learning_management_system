@@ -27,7 +27,7 @@ const DIRNAME = path.resolve();
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: "https://learning-management-system-1-5ice.onrender.com/",
     credentials : true
 }))
 
