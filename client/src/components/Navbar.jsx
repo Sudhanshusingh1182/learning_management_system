@@ -111,7 +111,8 @@ const Navbar = () => {
       { user ?  (
       <div className="flex md:hidden items-center justify-between px-4 h-full " >
         <h1 className="font-extrabold text-2xl" >E-learning</h1>
-        <MobileNavbar user={user} /> 
+        <MobileNavbar user={user} logoutHandler={logoutHandler} />
+
       </div> ) : (
         <div className="flex md:hidden items-center justify-between px-4 h-full " >
         <h1 className="font-extrabold text-2xl" >E-learning</h1>
@@ -129,7 +130,7 @@ const Navbar = () => {
 
 export default Navbar;
 
-const MobileNavbar = ({user}) => {
+const MobileNavbar = ({user, logoutHandler}) => {
   const navigate = useNavigate();
   const role = "instructor";  
   return (
@@ -161,7 +162,6 @@ const MobileNavbar = ({user}) => {
         )
       }
 
-      
     </SheetContent>
    </Sheet>
   );
