@@ -108,11 +108,21 @@ const Navbar = () => {
         </div>
       </div>
       {/* for mobile device */}
+      { user ?  (
       <div className="flex md:hidden items-center justify-between px-4 h-full " >
         <h1 className="font-extrabold text-2xl" >E-learning</h1>
         <MobileNavbar user={user} /> 
-      </div>
-      
+      </div> ) : (
+        <div className="flex md:hidden items-center justify-between px-4 h-full " >
+        <h1 className="font-extrabold text-2xl" >E-learning</h1>
+        
+         <div className="flex md:hidden items-end gap-2 " >
+         <Button variant="outline" onClick={()=>navigate("/login")} >Login</Button>
+         <Button onClick={()=>navigate("/login")} >Signup </Button>
+        </div>
+       </div>
+      )
+       }
     </div>
   );
 };
@@ -138,7 +148,7 @@ const MobileNavbar = ({user}) => {
       <nav className="flex flex-col space-y-4" >
         <Link to={"/my-learning"} >My Learning</Link>
         <Link to={"/profile"} >Edit Profile</Link>
-        <p>Log out </p>
+        <Button onClick={logoutHandler} >Log out </Button>
       </nav>
       
       {
