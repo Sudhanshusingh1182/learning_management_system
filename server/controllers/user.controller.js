@@ -9,10 +9,11 @@ export const register = async(req,res)=>{
     try{
        
        //extract name, email and password from req ki body
-       const {name,email,password}= req.body;
+       const {name,email,password, role}= req.body;
 
+      
        //check if all the required fields are present 
-       if(!name || !email || !password){
+       if(!name || !email || !password || !role){
           return res.status(400).json({
              success:false,
              message:"All fields are required."
@@ -29,6 +30,7 @@ export const register = async(req,res)=>{
          })
        }
 
+       const assignedRole = role?.toLowerCase();
        //hash the password
        const hashedPassword = await bcrypt.hash(password,10); 
        
@@ -36,7 +38,8 @@ export const register = async(req,res)=>{
        await User.create({
          name,
          email,
-         password: hashedPassword
+         password: hashedPassword,
+         role : assignedRole
        })
 
        //return success response
@@ -166,7 +169,7 @@ export const updateProfile = async(req,res)=>{
       const userId = req.id;
       const {name}= req.body;
       const profilePhoto = req.file;
-
+      
       const user = await User.findById(userId);
 
       if(!user){
@@ -188,7 +191,7 @@ export const updateProfile = async(req,res)=>{
       //upload new photo
       const cloudResponse = await uploadMedia(profilePhoto.path);
       const {secure_url:photoUrl}= cloudResponse;
-
+      
       const updatedData = {name,photoUrl} 
       
       const updatedUser = await User.findByIdAndUpdate(userId,updatedData,{new:true}).select("-password");

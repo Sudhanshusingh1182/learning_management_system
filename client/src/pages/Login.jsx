@@ -18,6 +18,14 @@ import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+
 
 const Login = () => {
   const [signupInput, setSignupInput] = useState({
@@ -126,6 +134,24 @@ const Login = () => {
                   placeholder="John@gmail.com"
                   required="true"
                 />
+              </div>
+              
+              <div className="space-y-1">
+                <Label htmlFor="role">Role</Label>
+                <Select
+                  onValueChange={(value) =>
+                    setSignupInput({ ...signupInput, role: value })
+                  }
+                  defaultValue="Student"
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select Role" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Student">Student</SelectItem>
+                    <SelectItem value="Instructor">Instructor</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
 
               <div className="space-y-1">

@@ -4,6 +4,8 @@ import { userLoggedIn, userLoggedOut } from "../authSlice";
 
 const USER_API = "https://lms-d2xb.onrender.com/api/v1/user/"
 
+//https://lms-d2xb.onrender.com/api/v1/user/
+
 export const authApi = createApi({
     reducerPath: "authApi",
     baseQuery: fetchBaseQuery({
