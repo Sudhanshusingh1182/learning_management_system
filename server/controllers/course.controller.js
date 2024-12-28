@@ -42,16 +42,12 @@ export const searchCourse = async (req, res) => {
       // Create the search query based on the query and categories
       const searchCriteria = {
          isPublished: true,
-      };
-
-      // If query is not empty, apply search filters
-      if (query) {
-         searchCriteria.$or = [
-            { courseTitle: { $regex: query, $options: "i" } }, // case insensitive search
-            { subTitle: { $regex: query, $options: "i" } },
-            { category: { $regex: query, $options: "i" } },
-         ];
-      }
+         $or: [
+           { courseTitle: { $regex: query, $options: "i" } },
+           { subTitle: { $regex: query, $options: "i" } },
+           { category: { $regex: query, $options: "i" } },
+         ],
+       };
 
       // If categories are selected, add to search criteria
       if (categories.length > 0) {
@@ -71,7 +67,7 @@ export const searchCourse = async (req, res) => {
 
 
       // Fetch courses from the database
-      const courses = await Course.find(searchCriteria)
+      let courses = await Course.find(searchCriteria)
          .populate({ path: "creator", select: "name photoUrl" })
          .sort(sortOptions);
       
@@ -103,6 +99,9 @@ export const getPublishedCourse = async(_,res)=>{
           message:"Courses not found"
        })
      }
+     
+     //console.log("Published courses from backend are : ",courses);
+     
 
      return res.status(200).json({
          courses,

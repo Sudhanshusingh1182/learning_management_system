@@ -58,9 +58,12 @@ export const createCheckoutSession = async(req,res)=>{
           userId: userId,
         },
         shipping_address_collection: {
-          allowed_countries: ["IN"], // Optionally restrict allowed countries
+          allowed_countries: ["IN","NZ"], // Optionally restrict allowed countries
         },
       });
+
+      //console.log(session);
+      
   
       if (!session.url) {
         return res
@@ -104,7 +107,9 @@ export const stripeWebhook = async (req, res) => {
   
     // Handle the checkout session completed event
     if (event.type === "checkout.session.completed") {
-      console.log("check session complete is called");
+      // console.log("check session complete is called");
+      // console.log(event.data);
+      
   
       try {
         const session = event.data.object;
@@ -147,7 +152,7 @@ export const stripeWebhook = async (req, res) => {
         );
       } catch (error) {
         console.error("Error handling event:", error);
-        return res.status(500).json({ message: "Internal Server Error" });
+        return res.status(500).json({ message: "There was an error while making the payment!" });
       }
     }
     res.status(200).send();
@@ -161,10 +166,11 @@ export const stripeWebhook = async (req, res) => {
   
       const course = await Course.findById(courseId)
         .populate({ path: "creator" })
-        .populate({ path: "lectures" });
+        .populate({ path: "lectures" })
+        .populate({ path: "enrolledStudents" });
   
       const purchased = await CoursePurchase.findOne({ userId, courseId });
-      console.log(purchased);
+     // console.log(purchased);
   
       if (!course) {
         return res.status(404).json({ message: "course not found!" });
@@ -172,7 +178,7 @@ export const stripeWebhook = async (req, res) => {
   
       return res.status(200).json({
         course,
-        purchased: !!purchased, // true if purchased, false otherwise
+        purchased: purchased ? true : false , // true if purchased, false otherwise
       });
     } catch (error) {
       console.log(error);

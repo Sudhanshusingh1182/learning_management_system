@@ -27,7 +27,7 @@ const DIRNAME = path.resolve();
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-    origin: "https://learning-management-system-1-5ice.onrender.com",
+    origin: "http://localhost:5173",
     credentials : true
 }))
 
@@ -42,7 +42,7 @@ app.use("/api/v1/progress",courseProgressRoute);
 app.use(express.static(path.join(DIRNAME,"/client/dist")));
 app.use("*",(_,res)=> {
     res.sendFile(path.resolve(DIRNAME, "client", "dist","index.html"));
-});
+}); 
 
 app.listen(PORT,()=>{
     console.log(`Server is running on port ${PORT}`);
